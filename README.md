@@ -17,7 +17,7 @@ El requisito principal del proyecto es que la métrica **RECM (RMSE)** en el con
 ## 🛠️ Herramientas y Habilidades Utilizadas
 * **Lenguaje:** Python
 * **Librerías:** Pandas, NumPy, Statsmodels, Scikit-Learn y Matplotlib
-* **Entorno:** Jupyter Notebook ([Proyecto_Omicron_Predicción_de_Demanda_de_Taxis.ipynb](https://github.com/santidata7/Omicron-Taxi-Demand-Forecasting/blob/main/Proyecto_Omicron_Predicci%C3%B3n_de_Demanda_de_Taxis.ipynb))
+* **Entorno:** Jupyter Notebook ([Proyecto_Omicron_Predicción_de_Demanda_de_Taxis.ipynb]
 * **Técnicas:** Análisis de Series Temporales, Descomposición Estacional, Ingeniería de Características (*Lags* y *Rolling Mean*), Validación Temporal y Optimización de Hiperparámetros.
 
 ## 📊 Fuente de Datos y Variables
