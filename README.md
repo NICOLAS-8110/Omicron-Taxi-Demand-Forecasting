@@ -1,6 +1,6 @@
 <img width="1280" height="640" alt="WhatsApp Image 2026-11-17 at 3 00 46 PM (14)" src="https://github.com/user-attachments/assets/a7acf9e0-ae8c-4ded-a918-8bfd8799dd8c" />
 
-# 🚕 Ο Proyecto Omicron | Predicción de Demanda de Taxis (Sweet Lift Taxi)
+# 🚕 Proyecto Omicron | Predicción de Demanda de Taxis (Sweet Lift Taxi)
 
 ## 📋 Descripción
 La compañía **Sweet Lift Taxi** busca anticipar la demanda de taxis en los aeropuertos para atraer un número adecuado de conductores durante los períodos de alta actividad. El objetivo principal de este proyecto es desarrollar un modelo de aprendizaje automático de series temporales capaz de predecir la cantidad de pedidos de taxis para la próxima hora utilizando datos históricos de solicitudes.
