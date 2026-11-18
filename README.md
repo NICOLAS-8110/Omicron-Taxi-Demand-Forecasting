@@ -1,59 +1,58 @@
 <img width="1280" height="640" alt="WhatsApp Image 2026-11-17 at 3 00 46 PM (14)" src="https://github.com/user-attachments/assets/a7acf9e0-ae8c-4ded-a918-8bfd8799dd8c" />
 
-# 🚕 Proyecto Omicron | Predicción de Demanda de Taxis (Sweet Lift Taxi)
+# 🚕 Ο Proyecto Omicron | Predicción de Demanda de Taxis (Sweet Lift Taxi)
 
 ## 📋 Descripción
-La compañía **Sweet Lift Taxi** busca anticipar la demanda de taxis en los aeropuertos para atraer un número adecuado de conductores durante los períodos de alta actividad. El objetivo de este proyecto es desarrollar un modelo de aprendizaje automático de series temporales capaz de predecir la cantidad de pedidos de taxis para la próxima hora utilizando datos históricos de solicitudes.
+La compañía **Sweet Lift Taxi** ha recopilado datos históricos sobre pedidos de taxis en los aeropuertos. Para atraer a más conductores durante las horas pico, necesitamos predecir la cantidad de pedidos de taxis para la próxima hora utilizando modelos de aprendizaje automático y técnicas de series temporales.
 
-El requisito principal del proyecto es construir un modelo predictivo que cumpla con la métrica de negocio: **RMSE < 48**.
+El requisito principal del proyecto es que la métrica **RECM (RMSE)** en el conjunto de prueba **no sea superior a 48**.
 
 ## 🎯 Objetivos
-- ✅ Cargar, ordenar cronológicamente y remuestrear los datos de solicitudes de taxis por intervalos de una hora (`data.resample("1h").sum()`).
-- ✅ Realizar un análisis exploratorio (EDA) para identificar tendencias, estacionalidad y componentes residuales de la serie temporal.
-- ✅ Diseñar características temporales (`hora`, `día`, `mes`, `día de la semana`, `año`) y atributos históricos mediante variables de desfase (`lag_1`, `lag_24`) y medias móviles (`rolling_mean`).
-- ✅ Aplicar una división estricta de los datos respetando el orden cronológico (`test_size = 0.10`, `shuffle = False`).
-- ✅ Entrenar, optimizar y comparar múltiples modelos de regresión garantizando cumplir con la meta de **RMSE < 48**.
+- ✅ Descargar, ordenar cronológicamente y remuestrear los datos de solicitudes de taxis por intervalos de una hora (`data.resample("1h").sum()`).
+- ✅ Realizar un análisis exploratorio de la serie temporal para identificar tendencia, estacionalidad y estacionalidad a corto plazo.
+- ✅ Diseñar características basadas en ingeniería temporal (`year`, `month`, `day`, `dayofweek`), variables de desfase (*lags*) y medias móviles (`rolling_mean`).
+- ✅ Dividir los datos cronológicamente respetando la secuencia temporal (`test_size = 0.10`, `shuffle = False`).
+- ✅ Entrenar y comparar múltiples modelos evaluando su desempeño mediante **RECM**, asegurando cumplir con la meta de negocio de **RECM < 48**.
 
 ## 🛠️ Herramientas y Habilidades Utilizadas
 * **Lenguaje:** Python
-* **Librerías:** Pandas, NumPy, Statsmodels, Scikit-Learn, LightGBM, XGBoost, Matplotlib y Seaborn
+* **Librerías:** Pandas, NumPy, Statsmodels, Scikit-Learn y Matplotlib
 * **Entorno:** Jupyter Notebook ([Proyecto_Omicron_Predicción_de_Demanda_de_Taxis.ipynb](https://github.com/santidata7/Omicron-Taxi-Demand-Forecasting/blob/main/Proyecto_Omicron_Predicci%C3%B3n_de_Demanda_de_Taxis.ipynb))
-* **Técnicas:** Análisis de Series Temporales, Descomposición Estacional, Ingeniería de Características (*Lags* y *Rolling Mean*), Validación Temporal y Gradient Boosting.
+* **Técnicas:** Análisis de Series Temporales, Descomposición Estacional, Ingeniería de Características (*Lags* y *Rolling Mean*), Validación Temporal y Optimización de Hiperparámetros.
 
 ## 📊 Fuente de Datos y Variables
-El conjunto de datos (`taxi.csv`) contiene registros históricos de solicitudes con las siguientes características:
+El conjunto de datos histórico (`taxi.csv`) contiene:
 * **`datetime`**: Marca temporal de la solicitud (configurada como índice cronológico).
 * **`num_orders`**: Cantidad de pedidos de taxis por hora (variable objetivo).
-* **Características temporales y de desfase**: Atributos de calendario, 24 retardos y media móvil para capturar la persistencia diaria y estacional.
+* **Características creadas:** Variables de calendario (`year`, `month`, `day`, `dayofweek`), 24 retardos (*lags*) y media móvil (`rolling_mean`).
 
 ## ⚙️ Metodología
-1. **Preparación de Datos:** Conversión al formato *datetime*, indexación cronológica y remuestreo estricto a intervalos horarios.
-2. **Análisis Exploratorio (EDA):** Identificación visual de la tendencia creciente y los patrones estacionales diarios mediante descomposición de series temporales.
-3. **Ingeniería de Características:** Creación automática de variables predictivas basadas en el comportamiento histórico y de calendario.
-4. **División Temporal:** Partición estricta en entrenamiento (**90%**) y prueba (**10%**) sin barajar los datos.
-5. **Evaluación de Modelos:** Comparación sistemática de algoritmos de regresión midiendo su desempeño mediante la métrica **RMSE**.
+1. **Preparación y Remuestreo:** Carga de datos, indexación y conversión a intervalos horarios con `data.resample("1h").sum()`.
+2. **Análisis Exploratorio (EDA):** Identificación visual y estadística de la tendencia alcista constante y los patrones estacionales diarios mediante `statsmodels.tsa.seasonal.seasonal_decompose`.
+3. **Ingeniería de Características:** Creación automática de atributos históricos y temporales mediante la función `make_features`.
+4. **División de Datos:** Partición en entrenamiento, subconjunto de validación y prueba final cronológica (`10%` de test, `shuffle=False`).
+5. **Entrenamiento y Validación:** Búsqueda de hiperparámetros óptimos para Árboles de Decisión y Bosques Aleatorios, junto con una Regresión Lineal de referencia.
 
-## 💡 Comparación de Resultados
-| Modelo Evaluado | RMSE | Criterio de Éxito (RMSE < 48) | Observaciones |
-| :--- | :---: | :---: | :--- |
-| **DummyRegressor (Modelo Base)** | 84.69 | ❌ | Línea base mínima de referencia |
-| **Árbol de Decisión** | 50.09 | ❌ | No alcanza el estándar requerido |
-| **Regresión Lineal** | 47.71 | ✅ | Cumple de forma justa el umbral |
-| **Bosque Aleatorio (Random Forest)** | 46.40 | ✅ | Sólido desempeño predictivo |
-| **LightGBM** | 46.19 | ✅ | Alta velocidad y precisión |
-| **XGBoost (Modelo Seleccionado)** | **41.79** | ✅ | **Mejor resultado obtenido del estudio** |
+## 💡 Comparación de Resultados en Validación
+| Modelo Evaluado | Hiperparámetros Óptimos | RECM (Validación) |
+| :--- | :--- | :---: |
+| **Regresión Lineal** | Por defecto | **32.95** |
+| **Bosque Aleatorio (Random Forest)** | `n_estimators=100`, `max_depth=15` | **34.35** |
+| **Árbol de Decisión** | `max_depth=10` | **38.76** |
 
-### 🏆 Mejor Modelo: `XGBoost`
-Con un **RMSE de 41.79** en el conjunto de prueba, **XGBoost** superó ampliamente el requisito mínimo de negocio establecido (`RMSE < 48`), demostrando una excelente capacidad para anticipar con precisión los picos de demanda en los aeropuertos.
+## 🏆 Evaluación en el Conjunto de Prueba
+Tras seleccionar la **Regresión Lineal** por su excelente desempeño en validación (**RECM = 32.95**), se evaluó en la muestra de prueba (`10%` de los datos):
+* **RECM Final en Prueba:** **45.54**
+* **Criterio de Éxito (RECM < 48):** **Cumplido con éxito ✅**
 
 ## 📈 Principales Hallazgos
-* **Importancia de la ingeniería de características:** Las variables de desfase (*lags*) y la media móvil (*rolling_mean*) fueron fundamentales para que los modelos de Machine Learning asimilasen los ciclos diarios de la serie temporal.
-* **Superioridad de Gradient Boosting:** Los algoritmos basados en árboles potenciados superaron claramente a los modelos lineales y tradicionales.
-* **Cumplimiento operativo:** El modelo final de **XGBoost** proporciona la precisión necesaria para optimizar la asignación de conductores y reducir los tiempos de espera de los usuarios de **Sweet Lift Taxi**.
+* El análisis exploratorio confirmó una clara tendencia ascendente en la demanda de taxis entre marzo y agosto de 2018, además de un ciclo diario muy marcado.
+* La inclusión de características retrospectivas (*lags* y *rolling_mean*) aportó el contexto necesario para que los modelos capturaran adecuadamente las fluctuaciones de la serie temporal.
+* La **Regresión Lineal** demostró una excelente capacidad de generalización en el conjunto de prueba, alcanzando un **RECM de 45.54**, superando el límite máximo establecido por el proyecto (`< 48`).
 
 ## 📂 Archivos Principales
-* [Proyecto_Omicron_Predicción_de_Demanda_de_Taxis.ipynb](https://github.com/santidata7/Omicron-Taxi-Demand-Forecasting/blob/main/Proyecto_Omicron_Predicci%C3%B3n_de_Demanda_de_Taxis.ipynb)
-* [taxi.csv](https://github.com/santidata7/Omicron-Taxi-Demand-Forecasting/blob/main/taxi.csv)
+* [Proyecto_Omicron_Predicción_de_Demanda_de_Taxis.ipynb]
+* [taxi.csv]
 
 ## 🏁 Conclusión
-El proyecto culminó con éxito. Mediante un análisis riguroso de series temporales y el uso de **XGBoost** (**RMSE = 41.79**), se construyó un sistema predictivo robusto que cumple con creces el estándar técnico del negocio (`RMSE < 48`), facilitando la planificación operativa y la toma de decisiones en periodos de alta actividad en aeropuertos.
+El proyecto cumplió a cabalidad con los objetivos planteados. Mediante una adecuada preparación, análisis temporal y la construcción de un modelo de **Regresión Lineal** robusto, se obtuvo un **RECM de 45.54** en el conjunto de prueba, validando que el sistema es capaz de anticipar con precisión la demanda horaria de taxis para **Sweet Lift Taxi** y facilitar la asignación óptima de conductores en periodos de alta actividad.
